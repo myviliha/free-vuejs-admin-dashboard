@@ -65,3 +65,36 @@ export const SCREENS: Record<string, Component> = {
  * would render the same thing and tell nobody how much is left. `routes.test.ts` asserts these two
  * tables partition `FREE_ROUTES` exactly, so a screen added here has to be removed from there.
  */
+
+/** The document title each address carries, matching the React and Next editions exactly. */
+export const TITLES: Record<string, string> = {
+  "/": "Ecommerce Dashboard",
+  "/alerts": "Alerts",
+  "/avatars": "Avatar",
+  "/badge": "Badges",
+  "/bar-chart": "Bar Chart",
+  "/basic-tables": "Basic Tables",
+  "/blank": "Blank Page",
+  "/buttons": "Buttons",
+  "/calendar": "Calendar",
+  "/error-404": "404 Error",
+  "/form-elements": "Form Elements",
+  "/images": "Images",
+  "/layouts": "Layouts",
+  "/line-chart": "Line Chart",
+  "/modals": "Modals",
+  "/profile": "User Profile",
+  "/signin": "Sign In",
+  "/signup": "Sign Up",
+  "/videos": "Videos",
+};
+
+/**
+ * `Alerts · VuiAdmin free`, and `VuiAdmin free` on the root.
+ *
+ * **This edition had one static title for all nineteen screens.** `index.html` set it once and nothing
+ * changed it, so every tab read the same thing and a reader with the demo open twice could not tell
+ * the two apart. The React and Next editions set a title per route; the shared template is here so the
+ * three cannot word it differently.
+ */
+export const titleOf = (title?: string) => (title ? `${title} · VuiAdmin free` : "VuiAdmin free");

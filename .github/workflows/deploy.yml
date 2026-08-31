@@ -47,9 +47,13 @@ jobs:
 
       - run: npm run check-types
 
-      - run: npm test
-
+      # **Build before test, and the order matters.** `utilities.test.ts` reads the stylesheet the
+      # build produces and holds every class in the source against it. With `test` first there is no
+      # `dist/` on a fresh checkout, so that case skips and the check silently does not run, which is
+      # worse than not having it.
       - run: npm run build
+
+      - run: npm test
 
       - if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5

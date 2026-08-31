@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watchEffect } from "vue";
 
 import AppShell from "./AppShell.vue";
 import RouteProgress from "./RouteProgress.vue";
 import { found, path } from "./router";
 import NotFoundScreen from "./screens/NotFoundScreen.vue";
-import { SCREENS } from "./screens";
+import { SCREENS, TITLES, titleOf } from "./screens";
 
 /**
  * The root: pick a screen, and decide whether it goes inside the shell.
@@ -28,6 +28,17 @@ import { SCREENS } from "./screens";
  * groups, where the same three sit outside `(shell)`.
  */
 const FULL_WIDTH = new Set(["/signin", "/signup", "/error-404"]);
+
+/**
+ * The document title, keyed on the address.
+ *
+ * One effect rather than a line in nineteen screens: the title is a property of the route, and
+ * `TITLES` is where the routes are. `watchEffect` runs once immediately and then on every change to
+ * `path`, which is exactly the two moments the title has to be right.
+ */
+watchEffect(() => {
+  document.title = titleOf(TITLES[path.value]);
+});
 
 const screen = computed(() => SCREENS[path.value]);
 const bare = computed(() => FULL_WIDTH.has(path.value));

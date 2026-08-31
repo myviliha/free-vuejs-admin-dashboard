@@ -6,7 +6,7 @@ import { DEMO_ICON_PATHS, FREE_ROUTES } from "@viliha/vui-core";
 import { expect, it } from "vitest";
 
 import { NAV, NAV_HREFS } from "./src/nav";
-import { SCREENS } from "./src/screens";
+import { SCREENS, TITLES, titleOf } from "./src/screens";
 
 /**
  * The route list, the screen map and the sidebar, held against each other in **every** direction.
@@ -70,4 +70,18 @@ it("every sidebar entry names an icon this edition can actually draw", () => {
 
 it("the sidebar's hrefs are all real routes", () => {
   for (const href of NAV_HREFS) expect(FREE_ROUTES, href).toContain(href);
+});
+
+it("every route has a title, and the template is applied", () => {
+  /**
+   * **This edition shipped one static title for all nineteen screens**, set in `index.html` and never
+   * changed, so every tab read the same thing. Nothing in the markup or the types could show that:
+   * only holding the title map against the route list can.
+   */
+  for (const route of FREE_ROUTES) {
+    expect(TITLES[route], `${route} has no title`).toBeTruthy();
+  }
+  for (const route of Object.keys(TITLES)) expect(FREE_ROUTES, route).toContain(route);
+  expect(titleOf("Alerts")).toBe("Alerts \u00b7 VuiAdmin free");
+  expect(titleOf(undefined)).toBe("VuiAdmin free");
 });
