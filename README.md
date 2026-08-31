@@ -1,5 +1,6 @@
 # VuiAdmin Vue: Free Vue 3 Admin Dashboard Template
 
+[![docs](https://img.shields.io/badge/docs-docs.viliha.com-266df0)](https://docs.viliha.com/docs/installation/vue)
 [![live demo](https://img.shields.io/badge/demo-vuejs.viliha.com-266df0)](https://vuejs.viliha.com)
 [![Vue](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vuedotjs&logoColor=white)](https://vuejs.viliha.com)
 [![license](https://img.shields.io/github/license/myviliha/free-vuejs-admin-dashboard?color=266df0)](./LICENSE)
@@ -36,6 +37,23 @@ writes one HTML file per route so deep links work on any static host.
 The same dashboard also ships for React, Next.js, Angular, plain HTML and Laravel, all from one
 design system, so you can change stack without changing product. [See all six
 editions](#all-six-editions).
+
+---
+
+## Documentation
+
+The full documentation is at **[docs.viliha.com](https://docs.viliha.com)**: installation for every
+edition, the folder structure, the app layout and the six shells, every component family, theming
+and dark mode, breakpoints, and deployment.
+
+- [Install the Vue edition](https://docs.viliha.com/docs/installation/vue)
+- [Project structure](https://docs.viliha.com/docs/structure/vue)
+- [Colours and tokens](https://docs.viliha.com/docs/customization/colors)
+- [Dark mode](https://docs.viliha.com/docs/customization/dark-mode)
+- [Deployment](https://docs.viliha.com/docs/deployment)
+- [FAQ](https://docs.viliha.com/docs/faq)
+
+This README is the short version. Anything it leaves out is in the docs.
 
 ---
 
@@ -76,6 +94,7 @@ Pro is optional and additive: net-new work, not a fence around what is here.
 
 ## Contents
 
+- [Documentation](#documentation)
 - [What is free and what is Pro](#what-is-free-and-what-is-pro)
 - [Features](#features)
 - [Quick start](#quick-start)
@@ -261,14 +280,14 @@ publishing.
 
 ## All six editions
 
-| Edition | Repository | Live demo | Notes |
+| Edition | Repository | Live demo | Docs |
 | --- | --- | --- | --- |
-| React | [free-reactjs-admin-dashboard](https://github.com/myviliha/free-reactjs-admin-dashboard) | [react.viliha.com](https://react.viliha.com) | Vite SPA |
-| Next.js | [free-nextjs-admin-dashboard](https://github.com/myviliha/free-nextjs-admin-dashboard) | [nextjs.viliha.com](https://nextjs.viliha.com) | App Router |
-| **Vue** | *this repository* | [vuejs.viliha.com](https://vuejs.viliha.com) | Vue 3 |
-| Angular | [free-angularjs-admin-dashboard](https://github.com/myviliha/free-angularjs-admin-dashboard) | [angularjs.viliha.com](https://angularjs.viliha.com) | Angular 20 |
-| HTML | [free-html-admin-dashboard](https://github.com/myviliha/free-html-admin-dashboard) | [html.viliha.com](https://html.viliha.com) | no build step |
-| Laravel | [free-laravel-admin-dashboard](https://github.com/myviliha/free-laravel-admin-dashboard) | [laravel.viliha.com](https://laravel.viliha.com) | Blade |
+| React | [free-reactjs-admin-dashboard](https://github.com/myviliha/free-reactjs-admin-dashboard) | [react.viliha.com](https://react.viliha.com) | [Install](https://docs.viliha.com/docs/installation/react) |
+| Next.js | [free-nextjs-admin-dashboard](https://github.com/myviliha/free-nextjs-admin-dashboard) | [nextjs.viliha.com](https://nextjs.viliha.com) | [Install](https://docs.viliha.com/docs/installation/nextjs) |
+| **Vue** | *this repository* | [vuejs.viliha.com](https://vuejs.viliha.com) | [Install](https://docs.viliha.com/docs/installation/vue) |
+| Angular | [free-angularjs-admin-dashboard](https://github.com/myviliha/free-angularjs-admin-dashboard) | [angularjs.viliha.com](https://angularjs.viliha.com) | [Install](https://docs.viliha.com/docs/installation/angular) |
+| HTML | [free-html-admin-dashboard](https://github.com/myviliha/free-html-admin-dashboard) | [html.viliha.com](https://html.viliha.com) | [Install](https://docs.viliha.com/docs/installation/html) |
+| Laravel | [free-laravel-admin-dashboard](https://github.com/myviliha/free-laravel-admin-dashboard) | [laravel.viliha.com](https://laravel.viliha.com) | [Install](https://docs.viliha.com/docs/installation/laravel) |
 
 Same nineteen screens, same design system, same fixtures. Pick the one that matches your stack.
 
