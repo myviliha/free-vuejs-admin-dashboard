@@ -1,0 +1,40 @@
+{
+  "name": "free-vue",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The free VuiAdmin admin dashboard, in Vue 3: nineteen screens on the same design system as the paid editions.",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --port 3000",
+    "check-types": "vue-tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.21",
+    "@fullcalendar/daygrid": "^6.1.21",
+    "@fullcalendar/interaction": "^6.1.21",
+    "@fullcalendar/timegrid": "^6.1.21",
+    "@fullcalendar/vue3": "^6.1.21",
+    "@tanstack/charts": "^0.9.0",
+    "@viliha/vui-core": "file:./packages/vui-core",
+    "@viliha/vui-css": "file:./packages/vui-css",
+    "@viliha/vui-vue": "file:./packages/vui-vue",
+    "apexcharts": "^6.10.0",
+    "date-fns": "^4.4.0",
+    "jsvectormap": "^1.7.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "happy-dom": "^20.0.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "5.9.2",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10",
+    "vue-tsc": "^3.1.2"
+  },
+  "license": "MIT"
+}

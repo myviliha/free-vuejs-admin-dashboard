@@ -1,0 +1,10 @@
+# **All three anchored, and the middle one is why.** `node_modules/` unanchored matches a directory of
+# that name at *any* depth, and `@viliha/vui-vue`'s build vendors `@internationalized/date` inside its
+# own `dist/node_modules/.pnpm/...`. That rule excluded seven real files, so a clone installed a
+# package whose Calendar could not resolve its own imports — while the tree it was cut from worked.
+/node_modules/
+/packages/*/node_modules/
+/dist/
+*.tsbuildinfo
+.env*.local
+.DS_Store

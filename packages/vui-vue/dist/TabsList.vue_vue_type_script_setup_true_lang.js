@@ -1,0 +1,28 @@
+import { computed, createBlock, defineComponent, normalizeClass, openBlock, renderSlot, unref, withCtx } from "vue";
+import { TabsList } from "reka-ui";
+import { TABS_LIST_BASE, TABS_LIST_VARIANTS, cn } from "@viliha/vui-core";
+//#region src/TabsList.vue?vue&type=script&setup=true&lang.ts
+var TabsList_vue_vue_type_script_setup_true_lang_default = /*@__PURE__*/ defineComponent({
+	__name: "TabsList",
+	props: {
+		variant: { default: "default" },
+		class: {}
+	},
+	setup(__props) {
+		const props = __props;
+		const classes = computed(() => cn(TABS_LIST_BASE, TABS_LIST_VARIANTS[props.variant], props.class));
+		return (_ctx, _cache) => {
+			return openBlock(), createBlock(unref(TabsList), {
+				"data-slot": "tabs-list",
+				"data-variant": __props.variant,
+				class: normalizeClass(classes.value)
+			}, {
+				default: withCtx(() => [renderSlot(_ctx.$slots, "default")]),
+				_: 3
+			}, 8, ["data-variant", "class"]);
+		};
+	}
+});
+//#endregion
+export { TabsList_vue_vue_type_script_setup_true_lang_default as default };
+

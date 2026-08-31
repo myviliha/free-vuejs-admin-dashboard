@@ -1,0 +1,15 @@
+/* VUI for Vue. Import after Tailwind:
+ *   @import "tailwindcss";
+ *   @import "@viliha/vui-vue/theme.css";
+ */
+@import "@viliha/vui-css/theme.css";
+
+/* Scan this package's components so their utilities are emitted. */
+@source "./";
+
+/* And the shared class strings, which live in `@viliha/vui-core` because this package's build marks
+ * it external. Without this every constant in `class-variants.ts` renders as an unstyled element.
+ * The first path is where the dependency sits when installed, the second where it sits in the
+ * workspace that builds it. */
+@source "../../vui-core/dist";
+@source "../../core/dist";

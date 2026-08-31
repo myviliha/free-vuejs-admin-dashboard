@@ -1,0 +1,1263 @@
+/**
+ * VUI Starter design system — single source of truth, shared across web apps.
+ *
+ * Neutral shadcn/ui token set (oklch) plus the PULSE brand palette kept for the
+ * gradient wordmark. Each app's globals.css just `@import`s this file after
+ * Tailwind; the token→utility mapping (`@theme inline`), the base reset, and the
+ * component-scan (`@source`) all live here so nothing is duplicated per app.
+ */
+
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.177 0 0); /* #101112 — global text color */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  /* **`primary` is the brand.** It was `oklch(0.205 0 0)`, a near-black ink inherited from shadcn's
+   * default palette and never revisited, while the actual brand lived in `--brand`. Two tokens for
+   * one role is why a selected calendar day, an active sidebar row and a progress bar all came out
+   * charcoal on three separate occasions: every author reached for `bg-primary`, meaning "the
+   * product's colour", and got the ink.
+   *
+   * One semantic slot per role is the whole point of a token layer, so this is that slot and
+   * `--brand` is the value a buyer sets. `--button-primary` stays as its own name because buttons
+   * need a hover and a shadow of their own (`--button-primary-hover`, `--button-shadow`); it
+   * resolves to the same colour.
+   *
+   * Consequence worth knowing: `bg-primary/10` now compiles to a real alpha, because `primary` is a
+   * registered theme colour rather than an arbitrary `var()`. That is what the sidebar's active row
+   * needed and could not have while the brand was only reachable as `[var(--button-primary)]`. */
+  --primary: var(--brand);
+  --primary-foreground: var(--button-primary-foreground);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  /* The other three state colours.
+   *
+   * `destructive` was the only one for a long time, so success, warning and
+   * informational states were written as raw palette classes: eighteen of them
+   * across eleven places, at three different lightnesses for the same idea.
+   * That made state colour the one family a buyer who rethemes this product
+   * could not change, which is the product gap `odin/AGENTS.md` records under
+   * Known thin spots. Same shape as `destructive`: one hue, used at full
+   * strength for text and at low opacity for a fill, so a state needs one
+   * value rather than a scale. */
+  --success: #039855;
+  --success-foreground: oklch(0.985 0 0);
+  --warning: #dc6803;
+  --warning-foreground: oklch(0.985 0 0);
+  --info: #0086c9;
+  --info-foreground: oklch(0.985 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  /* Focus ring uses the brand primary so highlighted fields read as "active". */
+  --ring: var(--button-primary);
+  /* Per-page accent (overridden by the app per route) — tints module icons. */
+  --page-accent: var(--muted-foreground);
+  /* The one brand colour. Everything below derives from it, so a runtime theme
+     (see theme-config.ts) sets this and the hover state, ring, selection and
+     button shadow all follow. Deriving in CSS rather than JS means the dark
+     variant can't drift from the light one. */
+  --brand: #266df0;
+  /* Text highlight (::selection) */
+  --selection: var(--brand);
+  --selection-foreground: var(--button-primary-foreground);
+  /* brand primary action button */
+  --button-primary: var(--brand);
+  --button-primary-hover: color-mix(in oklab, var(--brand) 84%, black);
+  --button-primary-foreground: #ffffff;
+  --button-shadow:
+    inset 0px 0px 0px 1px rgba(0, 0, 0, 0.06),
+    0px 2px 4px -2px color-mix(in srgb, var(--brand) 12%, transparent),
+    0px 3px 6px -2px color-mix(in srgb, var(--brand) 8%, transparent);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Brand palette — used by the gradient wordmark (from-brand-indigo …). */
+  --brand-indigo: #0866ff;
+  --brand-violet: #3b82f6;
+  --brand-coral: #ff5c40;
+  --brand-mint: #4fe3c1;
+  --brand-ink: #060914;
+  --brand-mist: #eef1fb;
+}
+
+.dark {
+  /* One saved brand colour covers both modes: dark lifts it rather than storing
+     a second value that could drift. */
+  --button-primary: color-mix(in oklab, var(--brand) 88%, white);
+  --button-primary-hover: color-mix(in oklab, var(--brand) 72%, white);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  /* The brand in dark too, as `--button-primary` already was: a near-white fill with dark text is
+   * shadcn's monochrome default, not a branded product's. `--brand` is not redefined per scheme. */
+  --primary: var(--brand);
+  --primary-foreground: var(--button-primary-foreground);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  /* Lifted for dark, as `destructive` is: the light values are legible on white
+   * and disappear on a dark surface. */
+  --success: #32d583;
+  --success-foreground: oklch(0.205 0 0);
+  --warning: #fdb022;
+  --warning-foreground: oklch(0.205 0 0);
+  --info: #36bffa;
+  --info-foreground: oklch(0.205 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--button-primary);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  /* --sidebar-foreground inherits var(--foreground) from :root */
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Stacking order. Anything that floats has to clear whatever opened it, or it
+   is invisible or unclickable: a menu inside a slide-over, a confirm raised
+   from a form, a picker at the bottom of a scrolling card. The scale is fixed
+   and enforced by src/z-layers.test.ts, which fails on any value not listed:
+
+     10 20 30  in-page (sticky headers, cell overlays)
+     55        slide-over backdrop
+     60        slide-over panel, Sheet
+     70        Dialog
+     80        AlertDialog / confirm      clears a Dialog and a slide-over
+     100       command palette
+     200       Select, Combobox, Dropdown, Popover, context menus
+     210       HoverCard
+     220       Tooltip
+     250       Toast
+     300       route-change progress   stays visible over any overlay
+
+   Position is only half of it: floating content must also be portalled to the
+   body, or the nearest `overflow-hidden` clips it however high its z-index. */
+
+/* Outfit, self-hosted, and the design system ships it rather than each app finding its own.
+
+   **Only one file in the whole repository supplied a typeface**, and it was the React demo's
+   `globals.css` through `next/font`. Every other edition, Vue free and paid, Angular, HTML, Laravel
+   and WordPress, rendered in the browser's system stack, which is the largest visual difference
+   between our editions and the one nobody had measured. Type is the first thing that reads as "a
+   different product": a dashboard laid out to the pixel in the wrong face still does not match.
+
+   Self-hosted, not `fonts.googleapis.com`. A download that phones a third party on every page load
+   is a request the buyer did not ask for, and it renders in a fallback face when they open the demo
+   offline. The files are the same two subsets Google serves, variable across the whole 100..900 axis,
+   which is what the reference loads.
+
+   `font-display: swap` so text is readable while the face arrives. The trade is a flash of the
+   fallback rather than a flash of nothing, and for a dashboard full of labels that is the right way
+   round.
+
+   The URLs are relative, so they resolve against wherever this stylesheet is served from. The theme
+   package's build copies the files next to its own output for exactly that reason. */
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/outfit-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/outfit-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme inline {
+  /* `--font-sans-choice` and `--font-scale` are what a runtime theme sets; unset
+     they fall back to what the package ships. */
+  /* Outfit is what the package ships and what every edition gets by default. `--font-sans-choice`
+     still wins, because a buyer retheming this product may want their own face, and `--font-inter`
+     stays behind it for the same reason: it was the previous default and an app already setting it
+     should not change appearance on upgrade.
+
+     **The nesting is the fix, not the ordering.** This read
+     `var(--font-sans-choice, var(--font-inter), ui-sans-serif, ...)`, and an inner `var()` with **no
+     fallback** for an undefined variable makes the whole declaration invalid at computed-value time:
+     the generic stack after it is never reached either, because it was inside the same fallback list.
+     So `--font-sans` resolved to nothing and every consumer fell back to the browser's default face.
+     React never saw it, because its `globals.css` overrides `--font-sans` outright, which is why this
+     survived: the one edition that could have caught it was the one edition immune to it. The generic
+     families now sit **outside** the `var()`, so they are always present whatever is or is not set. */
+  --font-sans:
+    var(--font-sans-choice, var(--font-inter, "Outfit")), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: var(--text-display);
+  --text-display--line-height: var(--text-display-leading);
+  --text-h1: var(--text-h1);
+  --text-h1--line-height: var(--text-h1-leading);
+  --text-h2: var(--text-h2);
+  --text-h2--line-height: var(--text-h2-leading);
+  --text-h3: var(--text-h3);
+  --text-h3--line-height: var(--text-h3-leading);
+  --text-h4: var(--text-h4);
+  --text-h4--line-height: var(--text-h4-leading);
+  --text-lead: var(--text-lead);
+  --text-lead--line-height: var(--text-lead-leading);
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: var(--text-caption-leading);
+
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+  --shadow-3: var(--shadow-3);
+  --shadow-4: var(--shadow-4);
+  --shadow-5: var(--shadow-5);
+
+  /* **The section widths are `--vui-section-*` and not `--container-*`, and that rename fixed a
+     product-wide bug.** `--container-{sm..2xl}` is Tailwind's own scale, the one behind `max-w-md`
+     and friends, and redefining it here quietly changed what fifty-seven call sites meant: Tailwind's
+     `md` is 28rem and this had it at 48rem, so every `max-w-md` in the product was 71% wider than it
+     read. It surfaced on the authentication screen, where a `max-w-md` form column measured 752px.
+     These are the marketing site's section maxima, they are only ever read by `.vui-container-*`, and
+     they now say so in their own names. */
+  --vui-section-sm: var(--vui-section-sm);
+  --vui-section-md: var(--vui-section-md);
+  --vui-section-lg: var(--vui-section-lg);
+  --vui-section-xl: var(--vui-section-xl);
+  --vui-section-2xl: var(--vui-section-2xl);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-selection: var(--selection);
+  --color-selection-foreground: var(--selection-foreground);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-violet: var(--brand-violet);
+  --color-brand-coral: var(--brand-coral);
+  --color-brand-mint: var(--brand-mint);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-mist: var(--brand-mist);
+
+  /* Accordion (Radix) — ships here so the ported Accordion animates without
+     the consumer needing tw-animate-css. */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  /* Input OTP caret. */
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  50% {
+    opacity: 0;
+  }
+}
+
+/* The height comes from whichever accordion primitive is in use: React/Radix
+   publishes --radix-accordion-content-height, and a Vue or Svelte port maps its
+   own library's variable onto --vui-accordion-height the same way. One
+   indirection here beats a fallback chain that grows with every port. */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--vui-accordion-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--vui-accordion-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    min-height: 100vh;
+    /* Global type baseline: Inter 14px / medium, with ligatures, and the one knob a runtime
+       theme turns to scale every text size: --font-scale.
+       These were TWO `font-size` declarations until 2026-08-13, `calc(1rem * var(--font-scale))`
+       followed four lines later by a flat `14px`. The second won, so --font-scale had no effect
+       and runtime text scaling was silently dead. Found by Biome's noDuplicateProperties.
+       0.875rem rather than 14px so a reader who raises their browser's base font size still
+       gets a larger baseline; it resolves to exactly 14px at the 16px default. */
+    font-size: calc(0.875rem * var(--font-scale, 1));
+    font-weight: 500;
+    font-feature-settings: "calt", "liga";
+  }
+  /* ── Native `<dialog>` ────────────────────────────────────────────────────────────────────────
+     The browser's own dialog, normalised so a class decides how it looks.
+
+     **`display: none` is the load-bearing line.** A UA stylesheet hides a closed dialog with
+     `dialog:not([open]) { display: none }`, and any author `display` utility outranks it whatever
+     the layer. Several of this system's own classes set one: `ALERT_DIALOG_CONTENT` carries `grid`
+     and `SHEET_CONTENT` carries `flex`. So a page using either on a real `<dialog>` painted the
+     modal at load, across the viewport, with no way to dismiss it, since `<form method="dialog">`
+     does nothing to a dialog that was never opened. Found in review of the HTML edition, which is
+     the first edition to use the native element.
+
+     The rest removes the UA's own box so the classes are not fighting it: a UA dialog carries
+     `margin: auto`, `padding: 1em`, a 3px border and `left: 0; right: 0`, which between them
+     centred a right-hand sheet and pushed a centred alert dialog a quarter of the viewport
+     off-screen. `::backdrop` gets the same dim the React overlay classes paint, so the two
+     editions scrim alike. */
+  dialog {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    max-width: none;
+    max-height: none;
+    background: transparent;
+    color: inherit;
+  }
+  /*
+   * `!important`, because without it this rule loses to any display utility on the element.
+   *
+   * It has been here, plain, since the overlay patterns were written, and it never worked: the HTML
+   * edition's sheet carries `flex` and its alert dialog carries `grid`, both in the utilities layer,
+   * which outranks this one. `dist/components/index.html` therefore shipped with a Filters sheet
+   * across the left third of the page and a "Delete Northwind Traders?" dialog over the middle,
+   * permanently, on the gallery a buyer evaluates the HTML SKU with. Nothing rendered the page and
+   * looked at it, so nothing noticed.
+   *
+   * Reaches only native <dialog>. React's overlays are portalled divs and are unaffected.
+   */
+  dialog:not([open]) {
+    display: none !important;
+  }
+  /* `opacity` rather than a `color-mix`, because the CSS build flattens
+     `color-mix(in oklch, var(--foreground) 25%, transparent)` to a bare `var(--foreground)` and the
+     scrim comes out fully opaque. Caught by reading the compiled output rather than the source. */
+  dialog::backdrop {
+    background-color: var(--foreground);
+    opacity: 0.25;
+  }
+  ::selection {
+    background-color: var(--selection);
+    color: var(--selection-foreground);
+  }
+  /* Every clickable element shows the hand cursor (global — no inline needed). */
+  button:not(:disabled),
+  [role="button"],
+  [role="menuitem"],
+  [role="menuitemcheckbox"],
+  [role="tab"],
+  summary,
+  label[for],
+  a[href] {
+    cursor: pointer;
+  }
+  /* Every icon is a bordered chip. Radix icons render `<svg width="15">`, so we
+     target that (custom SVGs like the logo use viewBox only and are exempt), and
+     `.vui-icon` is the opt-in for any other icon set or framework. The Tailwind
+     size utility (e.g. size-4) sets the glyph box, and content-box adds the
+     border + padding outside it so the glyph stays crisp. Active/emphasis
+     states just flip bg/border/color via utilities (they win in the later layer). */
+  svg[width="15"],
+  .vui-icon {
+    box-sizing: content-box;
+    padding: var(--vui-icon-chip-padding, 2px);
+    border: var(--vui-icon-chip-border, 1px solid var(--border));
+    border-radius: calc(var(--radius) - 4px);
+  }
+  /* Opting out: another icon set, or simply a plainer look. Scope it to a
+     subtree or set it on :root for the whole app.
+
+       .plain-icons { --vui-icon-chip-border: none; --vui-icon-chip-padding: 0; }
+
+     `.vui-icon-plain` is that pair, ready made, for a single icon.
+
+     The first selector is `svg.vui-icon-plain` and not just `.vui-icon-plain`, which is what the
+     rule said until 2026-08-23. A bare class is specificity 0,1,0 and the chip above it is
+     `svg[width="15"]` at 0,1,1, so putting the class on the icon itself lost and the opt-out only
+     ever worked from a wrapper. The doc line said "for a single icon", so the rule was wrong
+     rather than the sentence. */
+  svg.vui-icon-plain,
+  .vui-icon-plain,
+  .vui-icon-plain svg {
+    padding: 0;
+    border: none;
+  }
+  /* Radix icons are thin filled glyphs; add a matching stroke so they read
+     bolder/heavier throughout the app. */
+  svg[width="15"] path,
+  .vui-icon path {
+    stroke: currentColor;
+    stroke-width: 0.55px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  /* ponytail: rest of the paste's reset is already covered by Tailwind preflight. */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+/* Motion primitives — enterprise-style entrance transitions. Reduced-motion is
+   respected via the rule above (animation-duration is clamped for those users). */
+/* Opacity-only (no transform) so a faded page never becomes the containing
+   block for the fixed detail-panel overlay — the backdrop must cover the whole
+   viewport (sidebar, top bar, footer), not just the content area. */
+/* The route-change progress bar (`PD-125`).
+
+   **Two keyframes, because a navigation has no known duration.** The bar cannot animate to 100% and
+   wait, because it would sit full and finished while the page is still coming; and it cannot crawl
+   forever, because a fast navigation would show a stub and vanish. So `vui-route-progress` eases out
+   towards 90% and stops there, which reads as "working", and the app swaps to `vui-route-progress-done`
+   when the new page is on screen, which runs the last tenth quickly and fades.
+
+   The easing is deliberately front-loaded: most of the width is spent in the first 200ms, so a
+   navigation that finishes quickly still shows meaningful movement rather than a sliver.
+
+   `prefers-reduced-motion` is handled by the global clamp in the base layer, which reduces every
+   animation to a near-instant step. The bar then appears and disappears without travelling, which is
+   the right behaviour: it is still a state indicator, just not a moving one. */
+/*
+ * A native dialog's backdrop.
+ *
+ * The HTML edition opens its overlays with `showModal`, which paints `::backdrop`, and Tailwind's
+ * `backdrop:bg-foreground/25` compiled to `background-color: var(--foreground)` with the alpha
+ * dropped and the variable unresolved, so the page behind a modal was not dimmed at all
+ * (`PD-153`). Written here as plain CSS with the mix spelled out, which is also the only version an
+ * edition with no build step can rely on.
+ */
+dialog::backdrop {
+  background-color: color-mix(in srgb, black 25%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+@keyframes vui-route-progress {
+  0% {
+    transform: scaleX(0.02);
+  }
+  30% {
+    transform: scaleX(0.5);
+  }
+  60% {
+    transform: scaleX(0.75);
+  }
+  100% {
+    transform: scaleX(0.9);
+  }
+}
+@keyframes vui-route-progress-done {
+  from {
+    transform: scaleX(0.9);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+@keyframes vui-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vui-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vui-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes vui-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Motion, as tokens.
+ *
+ * The defaults below are what the design system ships. They are variables so a
+ * host can retune the feel without forking a keyframe, and so motion can be
+ * turned off wholesale:
+ *
+ *   :root { --vui-duration-base: 0ms; }   -- no animation anywhere
+ *
+ * (`prefers-reduced-motion` is already honoured by the clamp in the base layer;
+ * these tokens are for a deliberate product choice, not an accessibility one.) */
+/* The world map's land colours, and the design system owns them.
+
+   **They were defined in the React demo's `globals.css` and nowhere else**, so every other edition
+   rendered the map in whatever `currentColor` happened to be: the token resolved to an empty string and
+   the fill fell through to the inherited colour. Same shape as the typeface, and found the same way, by
+   a person looking at two previews rather than by any check (`PD-130`).
+
+   A component that reads a token belongs to the design system, and so does the token. */
+:root {
+  /* The world map's landmass.
+     **Measured, not chosen.** The reference's own render was sampled by pixel area: the ocean and
+     panel are `#f9fafb`, the landmass `#d1d5dc`, the borders between countries pure white, and the
+     markers their brand blue. The first attempt at this used a neutral mix and came out `#dadada`,
+     sixteen units off across the channels, because their greys are blue-tinted and every neutral in
+     our theme is chroma-zero. Five per cent of the brand closes it to `#d1d5db`, one unit out.
+     It is a mix rather than that hex so it still follows a retheme: a buyer with an amber brand gets
+     a warm landmass instead of a blue one that no longer belongs to their palette.
+     `srgb` and not `oklab`, because the mix had to be predictable enough to check against a
+     measurement before shipping it. */
+  --vui-map-land: color-mix(
+    in srgb,
+    var(--primary) 5%,
+    color-mix(in srgb, var(--muted-foreground) 32%, var(--card))
+  );
+  /* Hover is **inferred**, not measured: a static screenshot cannot show it, and their config is in
+     a directory this machine will not let the agent read. A shade darker is the safe reading. */
+  --vui-map-land-hover: color-mix(in srgb, var(--muted-foreground) 20%, var(--vui-map-land));
+}
+
+:root {
+  --vui-duration-fast: 0.14s;
+  --vui-duration-base: 0.2s;
+  --vui-duration-slow: 0.3s;
+  --vui-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --vui-ease-panel: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.vui-fade-in {
+  animation: vui-fade-in var(--vui-duration-slow) var(--vui-ease) both;
+}
+.vui-overlay-in {
+  animation: vui-overlay-in var(--vui-duration-base) ease-out both;
+}
+.vui-panel-in {
+  animation: vui-slide-in-right var(--vui-duration-slow) var(--vui-ease-panel) both;
+}
+.vui-pop-in {
+  animation: vui-pop-in var(--vui-duration-fast) ease-out both;
+  transform-origin: var(--vui-pop-origin, top);
+}
+
+/* Loading skeleton: a highlight band sweeping left → right over a muted base,
+   the "records are loading" cue. Used by RecordView's loading skeleton rows.
+   (prefers-reduced-motion is respected by the global clamp above.) */
+@keyframes vui-shimmer {
+  from {
+    background-position: -150% 0;
+  }
+  to {
+    background-position: 150% 0;
+  }
+}
+/* Toast entrance: rise + fade from the bottom-right corner. */
+@keyframes vui-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.vui-toast-in {
+  animation: vui-toast-in var(--vui-duration-base) var(--vui-ease) both;
+}
+
+.vui-shimmer {
+  background-color: var(--muted);
+  background-image: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    color-mix(in oklab, var(--foreground) 12%, var(--muted)) 50%,
+    var(--muted) 100%
+  );
+  background-size: 150% 100%;
+  background-repeat: no-repeat;
+  animation: vui-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes vui-slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes vui-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.vui-panel-out {
+  animation: vui-slide-out-right var(--vui-duration-base) var(--vui-ease-panel) both;
+}
+.vui-overlay-out {
+  animation: vui-overlay-out var(--vui-duration-base) ease-out both;
+}
+
+/* Continuous horizontal scroll for a logo strip. The list is rendered twice, so
+   translating by half the track loops seamlessly. Paused by the reduced-motion
+   clamp in the base layer, and by `motion-reduce:animate-none` on the element. */
+@keyframes vui-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Foundations a marketing page needs that an admin app never did.
+ *
+ * The admin theme lives happily on Tailwind's defaults: its type is one size,
+ * its containers are whatever the page frame says, and it has no hero. A landing
+ * page has a display headline that must not be a hand-picked `text-5xl` on every
+ * page, sections that must share one max-width, and cards that need more than
+ * two hand-rolled shadows. These are those tokens.
+ *
+ * Type is fluid: `clamp()` scales between the small and large ends without a
+ * breakpoint per size, so a headline reads on a 375px phone and a 1920px display
+ * from one declaration. Everything multiplies by --font-scale, so the density
+ * setting still works. */
+:root {
+  /* Retuned 2026-08-16 against the reference the dev supplied: its hero sits near 52px and its
+     section headings near 38px, where ours were 72px and 38px. A 72px display reads as a poster
+     rather than a product page, and it was the single biggest difference between the two. */
+  --text-display: clamp(2.25rem, 1.5rem + 2.8vw, 3.25rem);
+  --text-display-leading: 1.1;
+  --text-h1: clamp(1.9rem, 1.4rem + 2vw, 2.75rem);
+  --text-h1-leading: 1.15;
+  --text-h2: clamp(1.6rem, 1.25rem + 1.5vw, 2.35rem);
+  --text-h2-leading: 1.2;
+  --text-h3: clamp(1.3rem, 1.1rem + 0.9vw, 1.75rem);
+  --text-h3-leading: 1.25;
+  --text-h4: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+  --text-h4-leading: 1.35;
+  --text-lead: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  --text-lead-leading: 1.6;
+  --text-body: 1rem;
+  --text-body-leading: 1.65;
+  --text-caption: 0.8125rem;
+  --text-caption-leading: 1.5;
+
+  /* One max-width for every section, so a page cannot drift column by column. Prefixed, because the
+     unprefixed names are Tailwind's container scale: see the note in `@theme` above. */
+  --vui-section-sm: 40rem;
+  --vui-section-md: 48rem;
+  --vui-section-lg: 64rem;
+  --vui-section-xl: 80rem;
+  --vui-section-2xl: 90rem;
+
+  /* Elevation as a ramp rather than picking shadow-sm or shadow-md by feel. */
+  --shadow-1: 0 1px 2px -1px oklch(0 0 0 / 0.08);
+  --shadow-2: 0 2px 6px -2px oklch(0 0 0 / 0.1);
+  --shadow-3: 0 8px 20px -8px oklch(0 0 0 / 0.14);
+  --shadow-4: 0 16px 40px -16px oklch(0 0 0 / 0.18);
+  --shadow-5: 0 28px 64px -24px oklch(0 0 0 / 0.22);
+
+  /* Vertical rhythm between marketing sections. */
+  --section-y: clamp(3.5rem, 2rem + 5vw, 7rem);
+  --section-y-tight: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+
+  /* The breakpoints the blocks assume, named so docs and code agree. */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}
+
+/* Compact density tightens the rhythm, the same way it tightens page padding. */
+:root[data-density="compact"] {
+  --section-y: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  --section-y-tight: clamp(2rem, 1.25rem + 2vw, 3rem);
+}
+
+/* Centred, gutter-aware content column. `--vui-page-padding` is the same knob the
+   app shell uses, so a marketing page and an admin page indent identically. */
+.vui-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--vui-section-xl);
+  padding-inline: max(var(--vui-page-padding, 1rem), 1.25rem);
+}
+.vui-container-sm {
+  max-width: var(--vui-section-sm);
+}
+.vui-container-md {
+  max-width: var(--vui-section-md);
+}
+.vui-container-lg {
+  max-width: var(--vui-section-lg);
+}
+.vui-container-2xl {
+  max-width: var(--vui-section-2xl);
+}
+
+/* Section rhythm, so a page is a stack of <section class="vui-section"> and the
+   spacing between them is one decision instead of fifty. */
+.vui-section {
+  padding-block: var(--section-y);
+}
+.vui-section-tight {
+  padding-block: var(--section-y-tight);
+}
+
+/* Page-level calls to action.
+ *
+ * A block takes its actions as a slot, so the anchor is written by the page and
+ * not by the component. That left the two class names every page already uses
+ * (`vui-cta-primary`, `vui-cta-secondary`) undefined until 2026-08-14: eight
+ * calls to action across the site rendered as plain underlined text, in a
+ * product whose pitch is that it already looks finished.
+ *
+ * They live here rather than in a React component because a slot can hold an
+ * `<a>`, an Astro `<a>`, a Vue `<router-link>` or a plain button, and all four
+ * need the same shape. Same reason the container and section rhythm live here. */
+.vui-cta-primary,
+.vui-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding-inline: 1.25rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.vui-cta-primary {
+  background: var(--button-primary);
+  color: var(--button-primary-foreground, var(--primary-foreground));
+  border: 1px solid transparent;
+}
+.vui-cta-primary:hover {
+  background: var(--button-primary-hover, var(--button-primary));
+}
+.vui-cta-secondary {
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+.vui-cta-secondary:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+.vui-cta-primary:focus-visible,
+.vui-cta-secondary:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Decoration.
+ *
+ * The handful of effects that make a marketing page look designed rather than
+ * assembled: a soft brand wash behind a hero, a faint grid, a gradient
+ * headline, a card that lifts on hover. Every one of them is built from
+ * `--button-primary`, so they repaint with the tenant's brand and never need a
+ * colour of their own. They are decoration, so each is `pointer-events: none`
+ * and hidden from screen readers by the element that carries it.
+ * ------------------------------------------------------------------------ */
+
+/* An aurora wash: two brand-tinted blooms behind the content. Put it on a
+   positioned parent (`relative isolate`); it paints itself behind. */
+.vui-aurora {
+  position: relative;
+  isolation: isolate;
+}
+.vui-aurora::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 130%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      45% 55% at 20% 0%,
+      color-mix(in oklab, var(--button-primary) 26%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 85% 10%,
+      color-mix(in oklab, var(--chart-4, var(--button-primary)) 20%, transparent),
+      transparent 72%
+    );
+  filter: blur(8px);
+}
+
+/* A faint grid or dot field. Fades out downward so it never fights the content
+   below it, which is the difference between texture and noise. */
+.vui-grid-bg::after,
+.vui-dot-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  opacity: 0.5;
+}
+.vui-grid-bg::after {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+}
+.vui-dot-bg::after {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 1.5rem 1.5rem;
+}
+
+/* A single soft spotlight, for a CTA band or a highlighted card. */
+.vui-glow {
+  position: relative;
+  isolation: isolate;
+}
+.vui-glow::before {
+  content: "";
+  position: absolute;
+  inset-inline: 10%;
+  inset-block-start: -30%;
+  aspect-ratio: 2 / 1;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--button-primary) 30%, transparent),
+    transparent
+  );
+  filter: blur(28px);
+}
+
+/* Gradient headline. Applied to the text element itself. */
+.vui-gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--foreground) 12%,
+    color-mix(in oklab, var(--button-primary) 85%, var(--foreground)) 52%,
+    var(--foreground) 88%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* A card that answers the pointer: a small lift, a warmer border, more shadow.
+   The transition uses the motion tokens, so turning motion down turns this
+   down with it. */
+.vui-lift {
+  transition:
+    transform var(--vui-duration-base) var(--vui-ease),
+    box-shadow var(--vui-duration-base) var(--vui-ease),
+    border-color var(--vui-duration-base) var(--vui-ease);
+}
+@media (hover: hover) {
+  .vui-lift:hover {
+    transform: translateY(-2px);
+    /* Joins Tailwind's chain rather than writing the property (`PD-251`): a raw
+       `box-shadow` here is not overridden by a caller's `shadow-sm`, it is erased,
+       and the lift silently stops lifting. `check:tw-chain` holds this. */
+    --tw-shadow: var(--shadow-3);
+    box-shadow:
+      var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow),
+      var(--tw-ring-shadow), var(--tw-shadow);
+    border-color: color-mix(in oklab, var(--button-primary) 35%, var(--border));
+  }
+}
+
+/* A hairline gradient border. The element keeps its own background; this paints
+   a 1px brand-tinted edge that fades, which reads as premium without a colour
+   that has to be maintained. */
+.vui-ring-gradient {
+  position: relative;
+}
+.vui-ring-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--button-primary) 55%, transparent),
+    transparent 45%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Sections fading in as they arrive. `animation-timeline: view()` does this with
+   no JavaScript and no observer; browsers without it simply show the content,
+   which is the correct fallback. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vui-reveal {
+      animation: vui-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 22%;
+    }
+  }
+}
+@keyframes vui-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Appearance: how the shell is arranged.
+ *
+ * Three attributes on the root element, so switching layout is a data attribute
+ * rather than a re-render, and a host can set them server-side to avoid a flash:
+ *
+ *   <html data-sidebar="inset|floating|plain" data-density="default|compact|full" dir="rtl">
+ *
+ * Only the knobs live here. The shell reads them; components stay unaware.
+ */
+:root {
+  /* Gap between the sidebar, the content panel and the window edge. */
+  --vui-shell-gap: 0px;
+  /* Corner radius of the content panel. */
+  --vui-shell-radius: 0px;
+  /* Padding inside a page's content region. */
+  --vui-page-padding: 1rem;
+}
+
+:root[data-sidebar="inset"] {
+  --vui-shell-gap: 0.5rem;
+  --vui-shell-radius: var(--radius);
+}
+
+:root[data-sidebar="floating"] {
+  --vui-shell-gap: 0.75rem;
+  --vui-shell-radius: var(--radius);
+  /* The sidebar lifts off the background rather than sharing an edge with it. */
+  --vui-sidebar-shadow: 0 8px 24px -12px oklch(0 0 0 / 0.35);
+  --vui-sidebar-radius: var(--radius);
+}
+
+/* "plain": flush to the window, one shared border. The defaults above are it. */
+
+:root[data-density="compact"] {
+  --font-scale: 0.94;
+  --vui-page-padding: 0.625rem;
+}
+
+:root[data-density="full"] {
+  --vui-shell-gap: 0px;
+  --vui-shell-radius: 0px;
+  --vui-page-padding: 1.25rem;
+}
+
+/* Charts: hand the theme's palette to TanStack Charts.
+ *
+ * TanStack Charts deliberately has no theme of its own. It paints foreground,
+ * grids and muted text with `currentColor`, and reads six CSS variables for the
+ * categorical palette. So a chart inherits the design system for free, as long
+ * as something maps our tokens onto the names it looks for. That is all this
+ * class does, which is why charts follow light and dark mode, and a per-tenant
+ * brand, without a single line of JavaScript or a chart-specific colour prop.
+ *
+ * Put it on the chart's container:  <div class="vui-chart">
+ *
+ * The theme ships five chart tokens and TanStack reads six; the sixth falls
+ * back to the brand colour rather than to a hard-coded blue. */
+.vui-chart {
+  color: var(--foreground);
+  --ts-chart-1: var(--chart-1);
+  --ts-chart-2: var(--chart-2);
+  --ts-chart-3: var(--chart-3);
+  --ts-chart-4: var(--chart-4);
+  --ts-chart-5: var(--chart-5);
+  --ts-chart-6: var(--brand);
+}
+
+/* Scroll regions: always show the bars.
+ *
+ * macOS hides overlay scrollbars until you scroll, which means a table wider
+ * than its container looks like it just ends, and a long form looks complete at
+ * the fold. Defining `::-webkit-scrollbar` opts that element out of overlay
+ * scrollbars, so the bar is there before anyone touches the trackpad: the point
+ * is to say "there is more this way", not to decorate.
+ *
+ * `scrollbar-gutter: stable` reserves the space, so content doesn't shift by the
+ * bar's width when it appears. Applied by RecordView to its table and to the
+ * form body; use it on any scroll region you add. */
+.vui-scroll {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent;
+}
+.vui-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.vui-scroll::-webkit-scrollbar-track,
+.vui-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.vui-scroll::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+  /* Padding-box + a transparent border insets the thumb inside the track. */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.vui-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+}
+
+/* ─── The card, as semantic classes (`PD-218`) ─────────────────────────────────────────────────
+ *
+ * **The pilot for the one-time move**: `class-variants.ts` becomes a name map and the styling lives
+ * here, so a style preset becomes a block of rules rather than something no caller can override.
+ *
+ * `@layer components`, and the layer is load-bearing. Tailwind puts its utilities in
+ * `@layer utilities`, which wins over `components` whatever the specificity, so a caller writing
+ * `<Card className="p-8" />` still beats this padding exactly as `twMerge` used to arrange. Without
+ * the layer the caller loses and every override in the product silently stops working.
+ *
+ * `@apply` is a migration aid rather than the destination: it guarantees byte-identical output on
+ * the first pass, which is what makes the conversion provable rather than reviewable. The
+ * declarations become real CSS as each family is revisited.
+ *
+ * A preset overrides by scope, and nothing here changes for it:
+ *
+ *     [data-style="starter"] .vui-card { ... }
+ */
+@layer components {
+  /**
+   * The badge's shape and density, which is what a style changes about it.
+   *
+   * Written out rather than `@apply`ed for `font-weight`: `@apply font-medium` also emits
+   * `--tw-font-weight`, and a utility that resolves its own weight through that variable would read
+   * this rule's value instead of its own. The card pilot lost 10px of leading on every title to the
+   * same mechanism, so the rule is: a component rule may set a property and must not set a `--tw-*`
+   * variable a utility reads.
+   */
+  /**
+   * The accordion's divider, and the last item's lack of one.
+   *
+   * `border-bottom-style` reads `--tw-border-style` rather than setting it, exactly as Tailwind's
+   * own `border-b` does, so a caller writing `border-dashed` still wins: that utility sets the
+   * variable this rule reads.
+   */
+  .vui-accordion-item {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 1px;
+  }
+
+  .vui-accordion-item:last-child {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 0px;
+  }
+
+  /* Why a pill at 500 rather than a rounded rectangle: `BADGE_BASE` in `class-variants.ts`. */
+  .vui-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--spacing) * 1);
+    border-radius: calc(infinity * 1px);
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+    padding-inline: calc(var(--spacing) * 2.5);
+    padding-block: calc(var(--spacing) * 0.5);
+    font-weight: 500;
+  }
+
+  .vui-card {
+    @apply rounded-lg border border-border bg-card text-card-foreground;
+  }
+  .vui-card-header {
+    @apply flex flex-col gap-1 px-5 pb-3 pt-5;
+  }
+  /*
+   * **Written out rather than `@apply`ed, and the pilot is why.**
+   *
+   * `@apply leading-none` emits `--tw-leading: 1` as well as `line-height: 1`, and Tailwind v4's
+   * `text-lg` resolves its own line height as `var(--tw-leading, ...)`. So a caller writing
+   * `text-lg` read the variable this rule had set and every card title lost 10px of leading, even
+   * though the utility layer wins the declaration.
+   *
+   * Before the conversion `twMerge` deleted `leading-none` outright when a caller passed a
+   * `text-*` size, because they are a known conflict pair. A CSS class is opaque to twMerge, so
+   * that resolution is gone and the variable must not be set here.
+   *
+   * **Not setting it restores the old behaviour for the theme's own sizes, and not for every size**,
+   * which is worth stating precisely because the first draft of this comment overclaimed. Compiled
+   * and checked: `text-lg` emits `line-height: var(--tw-leading, var(--text-lg--line-height))`, so
+   * with no variable set it falls back to the theme and matches what `twMerge` used to produce.
+   * `text-[15px]` emits **`font-size` alone** — no line height at all — so this rule's `line-height`
+   * meets nothing in the utilities layer and wins, where `twMerge` would have dropped it. A caller
+   * writing an arbitrary size with a leading modifier (`text-[15px]/6`) is unaffected, because that
+   * form does emit one. Accepted rather than worked around (`PD-218`): every real `CardTitle` caller
+   * passes a theme size, and the alternative is leaving a utility in the constant, which would put
+   * the leading back out of a preset's reach.
+   *
+   * The general rule for the rest of the migration, stated as the mechanical test the codemod can
+   * actually apply: **a component-layer rule may set a property outright, and must not set a
+   * `--tw-*` variable that a utility reads.** Check it against the compiled CSS rather than against
+   * `twMerge`'s conflict table, which is a different and smaller set: `font-medium` emits
+   * `--tw-font-weight` too, and this theme is only safe from that because its seven custom sizes
+   * declare `--line-height` and no other sub-key. Add `--text-h3--font-weight` to the `@theme` block
+   * and this same bug arrives at `font-weight` from a token change nobody would connect to a card.
+   */
+  .vui-card-title {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
+  }
+  .vui-card-description {
+    @apply text-muted-foreground;
+  }
+  .vui-card-content {
+    @apply px-5 pb-5;
+  }
+  .vui-card-footer {
+    @apply flex items-center px-5 pb-5;
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "@viliha/vui-css",
+  "version": "0.3.0",
+  "description": "The VUI design system's tokens and compiled stylesheets, framework-free.",
+  "license": "MIT",
+  "author": "VILIHA PTE. LTD.",
+  "homepage": "https://vui.viliha.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.viliha.com/viliha/voilet-uat.git",
+    "directory": "packages/css"
+  },
+  "bugs": {
+    "url": "mailto:hello@viliha.com"
+  },
+  "keywords": [
+    "css",
+    "design-tokens",
+    "design-system",
+    "theme",
+    "tailwind",
+    "tailwindcss",
+    "tailwind-v4",
+    "dark-mode",
+    "oklch",
+    "vue",
+    "svelte",
+    "angular",
+    "solid",
+    "astro",
+    "qwik",
+    "lit",
+    "alpine",
+    "htmx",
+    "framework-agnostic"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "theme.css",
+    "dist"
+  ],
+  "exports": {
+    "./theme.css": "./theme.css",
+    "./free-demo.css": "./dist/free-demo.css",
+    "./fullcalendar.css": "./dist/fullcalendar.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "@viliha/vui-vue",
+  "version": "0.4.0",
+  "description": "Vue components of the VUI design system.",
+  "license": "MIT",
+  "author": "VILIHA PTE. LTD.",
+  "homepage": "https://vui.viliha.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.viliha.com/viliha/voilet-uat.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "mailto:hello@viliha.com"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "nuxt",
+    "reka-ui",
+    "tailwind",
+    "tailwindcss",
+    "tailwind-v4",
+    "components",
+    "component-library",
+    "design-system",
+    "admin",
+    "admin-template",
+    "dashboard",
+    "dark-mode"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./theme.css": "./dist/theme.css",
+    "./*": {
+      "types": "./dist/*.vue.d.ts",
+      "import": "./dist/*.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@tanstack/charts": "^0.9.0",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.5.0",
+    "@viliha/vui-core": "file:../vui-core",
+    "@viliha/vui-css": "file:../vui-css",
+    "reka-ui": "^2.10.3"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/charts": {
+      "optional": true
+    }
+  }
+}

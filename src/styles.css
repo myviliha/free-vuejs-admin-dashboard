@@ -1,0 +1,15 @@
+/* The free Vue demo's one stylesheet: Tailwind, then the design system's tokens.
+ *
+ * **Both imports are load-bearing, and the paid Vue preview once shipped with only the second.**
+ * `@viliha/vui-vue/theme.css` is custom properties and a `@source` directive; on its own it defines
+ * colours and generates no utilities, so every screen rendered as unstyled HTML: no sidebar column, no
+ * card, no table borders. `@source` is what makes Tailwind scan the Vue package's own components, so
+ * the class strings inside them survive this build rather than being treated as unused.
+ */
+@import "tailwindcss";
+@import "@viliha/vui-vue/theme.css";
+/* The free demo's own look, shared with every other free edition (`PD-140`). */
+@import "@viliha/vui-css/free-demo.css";
+/* FullCalendar wearing this design system's tokens. The calendar screen renders one, and the
+   library styles its own markup, so the rules live in the design system (PD-135). */
+@import "@viliha/vui-css/fullcalendar.css";

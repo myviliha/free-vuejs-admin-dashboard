@@ -1,0 +1,55 @@
+{
+  "name": "@viliha/vui-core",
+  "version": "1.0.0",
+  "description": "Framework-free core of the VUI design system: tokens, class strings, demo fixtures and the free tier's route list.",
+  "license": "MIT",
+  "author": "VILIHA PTE. LTD.",
+  "homepage": "https://vui.viliha.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.viliha.com/viliha/voilet-uat.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "mailto:hello@viliha.com"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "theme",
+    "theming",
+    "csv",
+    "export",
+    "framework-agnostic",
+    "typescript",
+    "vue",
+    "svelte",
+    "angular",
+    "solid"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./theme-config": "./dist/theme-config.js",
+    "./table-io": "./dist/table-io.js",
+    "./utils": "./dist/utils.js",
+    "./toast": "./dist/toast-core.js",
+    "./record-cache": "./dist/record-cache-core.js",
+    "./mock-data": "./dist/mock-data-core.js",
+    "./demo-users": "./dist/demo-users-core.js",
+    "./demo-organizations": "./dist/demo-organizations-core.js",
+    "./console-shell": "./dist/console-shell-core.js",
+    "./workspace-shell": "./dist/workspace-shell-core.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  }
+}
