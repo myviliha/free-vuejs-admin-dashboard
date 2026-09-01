@@ -234,7 +234,8 @@ const OPTION = "flex items-center gap-3 text-sm font-medium";
           <!-- `FILE_INPUT` is the library's: the button the browser draws is the only part of a file
                input a stylesheet reaches, and how it is drawn is a design-system decision rather than
                this page's. -->
-          <Input id="fe-file" type="file" :class="FILE_INPUT" />
+          <!-- pl-0 because the input's own px-4 pushes the browser's file button 16px in from the left edge, leaving an unfilled strip of the field background beside it. Invisible on white, obvious in dark mode. pl-0 lets the button sit flush; file:mr-4 still spaces the filename. -->
+          <Input id="fe-file" type="file" :class="cn(FILE_INPUT, 'pl-0')" />
         </FormField>
       </SectionCard>
 

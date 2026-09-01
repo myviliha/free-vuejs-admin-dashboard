@@ -68,3 +68,14 @@ it("no vendored file points into a pnpm store outside this repository", () => {
   }
   expect(escapes).toEqual([]);
 });
+
+it("the vendored Outfit font files are tracked", () => {
+  // The theme names Outfit and nothing else supplies it, so if these stop shipping the pages fall
+  // back to the system sans. That is not a visible break — it is a quiet one: text measures wider,
+  // and the first thing it did was wrap the social buttons on the sign-in screen onto two lines.
+  const fonts = [...tracked].filter((f) => f.startsWith("packages/vui-css/fonts/"));
+  expect(fonts.sort()).toEqual([
+    "packages/vui-css/fonts/outfit-latin-ext.woff2",
+    "packages/vui-css/fonts/outfit-latin.woff2",
+  ]);
+});

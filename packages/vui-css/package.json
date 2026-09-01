@@ -39,6 +39,7 @@
   ],
   "files": [
     "theme.css",
+    "fonts",
     "dist"
   ],
   "exports": {
