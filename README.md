@@ -137,13 +137,23 @@ Pro is optional and additive: net-new work, not a fence around what is here.
 Requires **Node.js 20+**.
 
 ```bash
+npx @viliha/free-admin-dashboard my-app --vuejs
+cd my-app
+pnpm dev
+```
+
+That fetches this edition, installs it, and leaves you a project of your own rather than a copy of this repository. It works with pnpm, npm, yarn and bun: pnpm is the default, and `--npm`, `--yarn` or `--bun` picks another.
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+Prefer to clone the repository, history and all?
+
+```bash
 git clone git@github.com:myviliha/free-vuejs-admin-dashboard.git
 cd free-vuejs-admin-dashboard
 npm install
 npm run dev
 ```
-
-Then open [http://localhost:3000](http://localhost:3000).
 
 ### Scripts
 
